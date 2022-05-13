@@ -104,18 +104,50 @@ function showEmpty() {
         const element = elements[tile.index];
         if (tile.bombs === 0) {
             showTile(tile.index);
-            if ((tile.index + 1) % xSize !== 0) showTile(tile.index + 1); // right
-            if (tile.index % xSize !== 0) showTile(tile.index - 1); // left
-            if (tile.index < ySize * (xSize - 1)) showTile(tile.index + xSize); // bottom
-            if (tile.index > ySize) showTile(tile.index - xSize); // upper
+            if ((tile.index + 1) % xSize !== 0) {
+                showTile(tile.index + 1); // show right tile if it is not border on right border
+                showTile(tile.index + xSize + 1);
+                showTile(tile.index - xSize + 1);
+            }
+            if (tile.index % xSize !== 0) {
+                showTile(tile.index - 1); // show left tile if it is not on a left border
+                showTile(tile.index + xSize - 1);
+                showTile(tile.index - xSize - 1);
+            }
+            if (tile.index < ySize * (xSize - 1)) showTile(tile.index + xSize); // show bottom if it is not on bottom border
+            showTile(tile.index - xSize); // show upper
 
-            // if ((tile.index + xSize + 1) % xSize !== 0)
-            //     showTile(tile.index + xSize + 1); // bottom left
-            // if ((tile.index - xSize + 1) % xSize !== 0)
-            //     showTile(tile.index - xSize + 1); // top left
+            // showTile(tile.index);
+            // if ((tile.index + 1) % xSize !== 0) showTile(tile.index + 1); // show right tile if it is not border on right border
+            // if (tile.index % xSize !== 0) showTile(tile.index - 1); // show left tile if it is not on a left border
+            // showTile(tile.index + xSize); // show bottom
+            // showTile(tile.index - xSize); // show upper
 
-            // if ((tile.index - xSize - 1) % xSize !== 0)
-            //     showTile(tile.index - xSize - 1); // top left
+            // showTile(tile.index);
+            // if ((tile.index + 1) % xSize !== 0) {
+            //     showTile(tile.index + 1); // right
+            //     if (tile.index < ySize * (xSize - 1)) {
+            //         // showTile(tile.index - xSize + 1); // upper right
+            //         showTile(tile.index - xSize + 1); // bottom right
+            //     }
+            //     if (tile.index > ySize) {
+            //         // showTile(tile.index - xSize + 1); // bottom right
+            //         showTile(tile.index - xSize + 1); // upper right
+            //     }
+            // }
+            // if (tile.index % xSize !== 0) {
+            //     showTile(tile.index - 1); // left
+            //     if (tile.index < ySize * (xSize - 1)) {
+            //         // showTile(tile.index - xSize - 1); // upper left
+            //         showTile(tile.index - xSize - 1); // bottom left
+            //     }
+            //     if (tile.index > ySize) {
+            //         // showTile(tile.index - xSize - 1); // bottom left
+            //         showTile(tile.index - xSize - 1); // upper left
+            //     }
+            // }
+            // if (tile.index < ySize * (xSize - 1)) showTile(tile.index + xSize); // bottom
+            // if (tile.index > ySize) showTile(tile.index - xSize); // upper
         }
     });
 }
