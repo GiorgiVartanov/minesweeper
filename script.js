@@ -1,31 +1,38 @@
 const gamePanel = document.querySelector(".game-panel");
 const bombCounter = document.querySelector(".bombs-amount");
 
-const selectedIndex = parseInt(localStorage.getItem("borderSize"));
-console.log(selectedIndex);
+const savedIndex = parseInt(localStorage.getItem("borderSize")); // amount of tiles
 
-const xSize = selectedIndex % 15;
-const ySize = Math.floor(selectedIndex / 15);
+const xSize = (savedIndex % 15) + 1;
+const ySize = Math.floor(savedIndex / 15) + 1;
 
-const size = 15;
+const size = xSize * ySize;
+
+console.log(size);
+console.log(xSize, ySize);
+
+// const size = 15;
 const amountOfBombs = 50;
 
 let amountOfFlaggedTiles = 0;
 
 let elements = [];
-let isDigging = true;
 let tiles = [];
 let bombLocationArr = [];
 let bombsPositionArr = [];
 
 function createPanel() {
-    for (let i = 0; i < size * size; i++) {
+    console.log(gamePanel);
+    gamePanel.style.gridTemplateColumns = `repeat(${xSize},1fr)`;
+    gamePanel.style.gridTemplateRows = `repeat(${ySize},1fr)`;
+
+    for (let i = 0; i < size; i++) {
         const newEl = document.createElement("div");
         newEl.classList.add("tile");
         gamePanel.appendChild(newEl);
         tiles.push({
             index: i,
-            position: [Math.floor(i / size), Math.floor(i % size)],
+            position: [Math.floor(i / ySize), Math.floor(i % xSize)],
             bombs: 0,
         });
     }
@@ -33,47 +40,51 @@ function createPanel() {
 }
 
 function placeBombs(amount) {
-    if (amount > size * size) return 0;
+    if (amount > size) return 0;
     bombCounter.textContent = amount;
 
     while (bombLocationArr.length < amount) {
-        const newBombLoc = Math.floor(Math.random() * size * size);
+        const newBombLoc = Math.floor(Math.random() * size);
         if (!bombLocationArr.includes(newBombLoc)) {
             bombLocationArr.push(newBombLoc);
             tiles[newBombLoc].bombs = -1;
         }
     }
-    bombLocationArr.forEach((location) =>
-        bombsPositionArr.push([
-            Math.floor(location / size),
-            Math.floor(location % size),
-        ])
-    );
 
     tiles.forEach((tile) => {
-        if (tile.bombs !== -1) tile.bombs = calculateNearBombs(tile.position);
+        if (tile.bombs !== -1) tile.bombs = calculateNearBombs(tile.index);
     });
 }
 
 function calculateNearBombs(position) {
     let counter = 0;
-    const nearTiles = [
-        // array with every tile that is near
-        [position[0] + 1, position[1]],
-        [position[0], position[1] + 1],
-        [position[0] - 1, position[1]],
-        [position[0], position[1] - 1],
-        [position[0] + 1, position[1] + 1],
-        [position[0] - 1, position[1] - 1],
-        [position[0] + 1, position[1] - 1],
-        [position[0] - 1, position[1] + 1],
-    ];
-    nearTiles.forEach((arr1) => {
-        bombsPositionArr.forEach((arr2) => {
-            if (arr1.every((value, index) => value === arr2[index]))
-                counter += 1;
-        });
+
+    const nearTiles = [];
+
+    nearTiles.push(position + 1);
+    nearTiles.push(position - 1);
+    nearTiles.push(position + xSize);
+    nearTiles.push(position - xSize);
+    nearTiles.push(position + xSize + 1);
+    nearTiles.push(position - xSize + 1);
+    nearTiles.push(position + xSize - 1);
+    nearTiles.push(position - xSize - 1);
+
+    if (position % xSize === 0) {
+        nearTiles.splice(nearTiles.indexOf(position - 1), 1);
+        nearTiles.splice(nearTiles.indexOf(position + xSize - 1), 1);
+        nearTiles.splice(nearTiles.indexOf(position - xSize - 1), 1);
+    }
+    if ((position + 1) % xSize === 0) {
+        nearTiles.splice(nearTiles.indexOf(position + 1), 1);
+        nearTiles.splice(nearTiles.indexOf(position + xSize + 1), 1);
+        nearTiles.splice(nearTiles.indexOf(position - xSize + 1), 1);
+    }
+
+    bombLocationArr.forEach((bombLocation) => {
+        if (nearTiles.includes(bombLocation)) counter += 1;
     });
+
     return counter;
 }
 
@@ -93,16 +104,25 @@ function showEmpty() {
         const element = elements[tile.index];
         if (tile.bombs === 0) {
             showTile(tile.index);
-            if ((tile.index + 1) % size !== 0) showTile(tile.index + 1); // right
-            if (tile.index % size !== 0) showTile(tile.index - 1); // left
-            if (tile.index < size * (size - 1)) showTile(tile.index + size); // bottom
-            if (tile.index > size) showTile(tile.index - size); // upper
+            if ((tile.index + 1) % xSize !== 0) showTile(tile.index + 1); // right
+            if (tile.index % xSize !== 0) showTile(tile.index - 1); // left
+            if (tile.index < ySize * (xSize - 1)) showTile(tile.index + xSize); // bottom
+            if (tile.index > ySize) showTile(tile.index - xSize); // upper
+
+            // if ((tile.index + xSize + 1) % xSize !== 0)
+            //     showTile(tile.index + xSize + 1); // bottom left
+            // if ((tile.index - xSize + 1) % xSize !== 0)
+            //     showTile(tile.index - xSize + 1); // top left
+
+            // if ((tile.index - xSize - 1) % xSize !== 0)
+            //     showTile(tile.index - xSize - 1); // top left
         }
     });
 }
 function showTile(index) {
     if (index < 0) return;
-    if (index > size * size) return;
+    if (index > size) return;
+    // console.log(tiles[index].index);
 
     const element = elements[index];
     const nearBombs = tiles[index].bombs;
@@ -114,6 +134,7 @@ function showTile(index) {
 }
 
 gamePanel.addEventListener("click", (e) => {
+    console.log(elements.indexOf(e.target));
     if (
         e.target.className !== "game-panel" &&
         e.target.classList.length === 1
