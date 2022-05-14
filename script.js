@@ -2,6 +2,7 @@ const gamePanel = document.querySelector(".game-panel");
 const bombCounter = document.querySelector(".bombs-amount");
 
 const savedIndex = parseInt(localStorage.getItem("borderSize")); // amount of tiles
+const amountOfBombs = parseInt(localStorage.getItem("bombsAmount")); // amount of bombs
 
 const xSize = (savedIndex % 15) + 1;
 const ySize = Math.floor(savedIndex / 15) + 1;
@@ -11,8 +12,7 @@ const size = xSize * ySize;
 console.log(size);
 console.log(xSize, ySize);
 
-// const size = 15;
-const amountOfBombs = 50;
+// const amountOfBombs = 50;
 
 let amountOfFlaggedTiles = 0;
 
@@ -116,45 +116,12 @@ function showEmpty() {
             }
             if (tile.index < ySize * (xSize - 1)) showTile(tile.index + xSize); // show bottom if it is not on bottom border
             showTile(tile.index - xSize); // show upper
-
-            // showTile(tile.index);
-            // if ((tile.index + 1) % xSize !== 0) showTile(tile.index + 1); // show right tile if it is not border on right border
-            // if (tile.index % xSize !== 0) showTile(tile.index - 1); // show left tile if it is not on a left border
-            // showTile(tile.index + xSize); // show bottom
-            // showTile(tile.index - xSize); // show upper
-
-            // showTile(tile.index);
-            // if ((tile.index + 1) % xSize !== 0) {
-            //     showTile(tile.index + 1); // right
-            //     if (tile.index < ySize * (xSize - 1)) {
-            //         // showTile(tile.index - xSize + 1); // upper right
-            //         showTile(tile.index - xSize + 1); // bottom right
-            //     }
-            //     if (tile.index > ySize) {
-            //         // showTile(tile.index - xSize + 1); // bottom right
-            //         showTile(tile.index - xSize + 1); // upper right
-            //     }
-            // }
-            // if (tile.index % xSize !== 0) {
-            //     showTile(tile.index - 1); // left
-            //     if (tile.index < ySize * (xSize - 1)) {
-            //         // showTile(tile.index - xSize - 1); // upper left
-            //         showTile(tile.index - xSize - 1); // bottom left
-            //     }
-            //     if (tile.index > ySize) {
-            //         // showTile(tile.index - xSize - 1); // bottom left
-            //         showTile(tile.index - xSize - 1); // upper left
-            //     }
-            // }
-            // if (tile.index < ySize * (xSize - 1)) showTile(tile.index + xSize); // bottom
-            // if (tile.index > ySize) showTile(tile.index - xSize); // upper
         }
     });
 }
 function showTile(index) {
     if (index < 0) return;
     if (index > size) return;
-    // console.log(tiles[index].index);
 
     const element = elements[index];
     const nearBombs = tiles[index].bombs;
