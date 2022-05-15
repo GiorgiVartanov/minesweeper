@@ -18,8 +18,6 @@ let value = 15; // default value of bombs
 if (typeof selectedBombs === undefined) rangeInput.value = value;
 else rangeInput.value = selectedBombs;
 
-console.log(selectedIndex);
-
 sliderChange();
 
 for (let i = 0; i < 225; i++) {
@@ -32,6 +30,7 @@ for (let i = 0; i < 225; i++) {
     });
 }
 
+console.log(selectedIndex);
 if (typeof selectedIndex === undefined) highLightSelected(25);
 else highLightSelected(selectedIndex);
 
