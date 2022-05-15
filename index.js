@@ -13,14 +13,12 @@ const selectedBombs = parseInt(localStorage.getItem("bombsAmount"));
 
 let value = 15; // default value of bombs
 
-console.log(selectedBombs);
 // rangeInput.value = selectedBombs ? selectedBombs : value; // use default value if another is not saved
 
 if (typeof selectedBombs === undefined) rangeInput.value = value;
 else rangeInput.value = selectedBombs;
 
-if (typeof selectedIndex === undefined) highLightSelected(25);
-else highLightSelected(selectedIndex);
+console.log(selectedIndex);
 
 sliderChange();
 
@@ -33,6 +31,9 @@ for (let i = 0; i < 225; i++) {
         highlightPrevious(elements.indexOf(e.target));
     });
 }
+
+if (typeof selectedIndex === undefined) highLightSelected(25);
+else highLightSelected(selectedIndex);
 
 function highlightPrevious(index) {
     elements.forEach((element, elementIndex) => {
