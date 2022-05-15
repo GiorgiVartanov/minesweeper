@@ -19,6 +19,8 @@ console.log(selectedBombs);
 if (typeof selectedBombs === undefined) rangeInput.value = value;
 else rangeInput.value = selectedBombs;
 
+if (typeof selectedIndex === undefined) selectedIndex = 25;
+
 sliderChange();
 
 for (let i = 0; i < 225; i++) {
