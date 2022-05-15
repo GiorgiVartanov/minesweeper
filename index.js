@@ -19,7 +19,8 @@ console.log(selectedBombs);
 if (typeof selectedBombs === undefined) rangeInput.value = value;
 else rangeInput.value = selectedBombs;
 
-if (typeof selectedIndex === undefined) selectedIndex = 25;
+if (typeof selectedIndex === undefined) highLightSelected(25);
+else highLightSelected(selectedIndex);
 
 sliderChange();
 
@@ -32,8 +33,6 @@ for (let i = 0; i < 225; i++) {
         highlightPrevious(elements.indexOf(e.target));
     });
 }
-
-highLightSelected(selectedIndex);
 
 function highlightPrevious(index) {
     elements.forEach((element, elementIndex) => {
