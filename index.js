@@ -1,11 +1,12 @@
 const selectPanel = document.querySelector(".select-panel");
-// const startButton = document.querySelector(".start-button");
 const selectBombsAmount = document.querySelector(".select-bombs-amount");
 const slider = document.querySelector(
     ".select-bombs-amount::-webkit-slider-thumb"
 );
 const rangeInput = document.querySelector(".select-bombs-amount");
 const bombsLabel = document.querySelector(".select-bombs-label");
+const sizeX = document.querySelector(".size-x");
+const sizeY = document.querySelector(".size-y");
 
 const elements = [];
 const selectedIndex = parseInt(localStorage.getItem("borderSize"));
@@ -17,6 +18,14 @@ let value = 15; // default value of bombs
 
 if (typeof selectedBombs === undefined) rangeInput.value = value;
 else rangeInput.value = selectedBombs;
+
+if (typeof selectedIndex === undefined) {
+    highLightSelected(25);
+    positionNumbers(25);
+} else {
+    highLightSelected(selectedIndex);
+    positionNumbers(selectedIndex);
+}
 
 sliderChange();
 
@@ -65,9 +74,20 @@ function sliderChange() {
     localStorage.setItem("bombsAmount", value);
 }
 
+function positionNumbers(index) {
+    const sizeXValue = (index % 15) + 1;
+    const sizeYValue = Math.floor(index / 15) + 1;
+    sizeX.textContent = sizeXValue;
+    sizeY.textContent = sizeYValue;
+    sizeX.style.left = 20 + sizeXValue * 10 + "px";
+    sizeY.style.top = 15 + sizeYValue * 10 + "px";
+}
+
 selectPanel.addEventListener("click", (e) => {
+    const index = elements.indexOf(e.target);
     if (e.target.classList != "select-panel") {
-        highLightSelected(elements.indexOf(e.target));
+        highLightSelected(index);
+        positionNumbers(index);
     }
 });
 
