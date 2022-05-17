@@ -9,25 +9,14 @@ const sizeX = document.querySelector(".size-x");
 const sizeY = document.querySelector(".size-y");
 
 const elements = [];
-const selectedIndex = parseInt(localStorage.getItem("borderSize"));
-const selectedBombs = parseInt(localStorage.getItem("bombsAmount"));
-
-let value = 15; // default value of bombs
-
-// rangeInput.value = selectedBombs ? selectedBombs : value; // use default value if another is not saved
-
-if (typeof selectedBombs === undefined) rangeInput.value = value;
-else rangeInput.value = selectedBombs;
-
-if (typeof selectedIndex === undefined) {
-    highLightSelected(25);
-    positionNumbers(25);
-} else {
-    highLightSelected(selectedIndex);
-    positionNumbers(selectedIndex);
-}
-
-sliderChange();
+let selectedIndex =
+    parseInt(localStorage.getItem("borderSize")) != null
+        ? parseInt(localStorage.getItem("borderSize"))
+        : 25;
+let amountOfBombs =
+    parseInt(localStorage.getItem("bombsAmount")) != null
+        ? parseInt(localStorage.getItem("bombsAmount"))
+        : 15;
 
 for (let i = 0; i < 225; i++) {
     const newEl = document.createElement("div");
@@ -39,9 +28,8 @@ for (let i = 0; i < 225; i++) {
     });
 }
 
-console.log(selectedIndex);
-if (typeof selectedIndex === undefined) highLightSelected(25);
-else highLightSelected(selectedIndex);
+highLightSelected(selectedIndex);
+changeSliderValue(amountOfBombs);
 
 function highlightPrevious(index) {
     elements.forEach((element, elementIndex) => {
@@ -52,42 +40,62 @@ function highlightPrevious(index) {
 }
 
 function highLightSelected(index) {
+    if (((index % 15) + 1) * (Math.floor(index / 15) + 1) - 1 < amountOfBombs) {
+        // console.log(index, amountOfBombs);
+        changeSliderValue(
+            ((index % 15) + 1) * (Math.floor(index / 15) + 1) - 1
+        );
+    }
+
     elements.forEach((element, elementIndex) => {
         if (elementIndex <= index && elementIndex % 15 <= index % 15) {
             element.classList.add("selected-square-highlight");
         } else element.classList.remove("selected-square-highlight");
     });
 
+    selectedIndex = index;
     localStorage.setItem("borderSize", index);
+
+    const sizeXValue = (index % 15) + 1;
+    const sizeYValue = Math.floor(index / 15) + 1;
+    sizeX.textContent = sizeXValue;
+    sizeY.textContent = sizeYValue;
+    sizeX.style.left = 20 + sizeXValue * 9 + "px";
+    sizeY.style.top = 15 + sizeYValue * 9 + "px";
 }
 
-function sliderChange() {
+function changeSliderValue(value) {
+    if (
+        ((selectedIndex % 15) + 1) * (Math.floor(selectedIndex / 15) + 1) <
+        value
+    ) {
+        while (
+            ((selectedIndex % 15) + 1) * (Math.floor(selectedIndex / 15) + 1) <
+            value
+        ) {
+            selectedIndex += 1;
+        }
+        highLightSelected(selectedIndex);
+    }
+
     const min = rangeInput.min;
     const max = rangeInput.max;
-    value = rangeInput.value;
+
+    rangeInput.value = value;
 
     rangeInput.style.backgroundSize =
         ((value - min) * 100) / (max - min) + "% 100%";
     bombsLabel.textContent = value;
     if (value < 25) bombsLabel.style.left = `${value * 4.5 + 10}px`;
     if (value >= 25) bombsLabel.style.left = `${value * 4.6 + 6}px`;
+    amountOfBombs = value;
     localStorage.setItem("bombsAmount", value);
-}
-
-function positionNumbers(index) {
-    const sizeXValue = (index % 15) + 1;
-    const sizeYValue = Math.floor(index / 15) + 1;
-    sizeX.textContent = sizeXValue;
-    sizeY.textContent = sizeYValue;
-    sizeX.style.left = 20 + sizeXValue * 10 + "px";
-    sizeY.style.top = 15 + sizeYValue * 10 + "px";
 }
 
 selectPanel.addEventListener("click", (e) => {
     const index = elements.indexOf(e.target);
-    if (e.target.classList != "select-panel") {
+    if (index != -1) {
         highLightSelected(index);
-        positionNumbers(index);
     }
 });
 
@@ -97,6 +105,6 @@ selectPanel.addEventListener("mouseleave", () => {
     });
 });
 
-rangeInput.addEventListener("input", sliderChange);
-
-// slider.textContent = 2;
+rangeInput.addEventListener("input", () => {
+    changeSliderValue(parseInt(rangeInput.value));
+});
