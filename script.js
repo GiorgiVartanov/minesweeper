@@ -178,23 +178,15 @@ function placeFlag(e) {
                 flaggedArr.push(index);
             }
             if (areEqual(flaggedArr, bombLocationArr)) win();
-            console.log(JSON.stringify(flaggedArr));
-            console.log(JSON.stringify(bombLocationArr));
-            if (
-                JSON.stringify(flaggedArr) === JSON.stringify(bombLocationArr)
-            ) {
-                win();
-            }
         }
     }
 }
 
 function areEqual(a, b) {
     if (a.length != b.length) return false;
-    a.every((element) => {
-        if (!b.includes(element)) return false;
+    return a.every((element) => {
+        return b.includes(element);
     });
-    return true;
 }
 
 restartButton.forEach((button) =>
@@ -207,4 +199,3 @@ createPanel();
 placeBombs(amountOfBombs);
 
 showEmpty();
-// showEverything();

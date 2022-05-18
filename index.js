@@ -41,7 +41,7 @@ function highlightPrevious(index) {
 
 function highLightSelected(index) {
     if (((index % 15) + 1) * (Math.floor(index / 15) + 1) - 1 < amountOfBombs) {
-        // console.log(index, amountOfBombs);
+        console.log(index, amountOfBombs);
         changeSliderValue(
             ((index % 15) + 1) * (Math.floor(index / 15) + 1) - 1
         );
@@ -86,8 +86,9 @@ function changeSliderValue(value) {
     rangeInput.style.backgroundSize =
         ((value - min) * 100) / (max - min) + "% 100%";
     bombsLabel.textContent = value;
-    if (value < 25) bombsLabel.style.left = `${value * 4.5 + 10}px`;
-    if (value >= 25) bombsLabel.style.left = `${value * 4.6 + 6}px`;
+    // if (value < 10) bombsLabel.style.left = `${value * 4.5 + 10}px`;
+    // if (value >= 10) bombsLabel.style.left = `${value * 4.6 + 8}px`;
+    bombsLabel.style.left = `${value * 4.5 + 10}px`;
     amountOfBombs = value;
     localStorage.setItem("bombsAmount", value);
 }
