@@ -83,19 +83,13 @@ function calculateNearBombs(position) {
 }
 
 function showEverything() {
-    tiles.forEach((tile) => {
-        const element = elements[tile.index];
-        const nearBombs = tile.bombs;
-        if (nearBombs !== 0) element.textContent = nearBombs;
-        if (element.classList.length === 1)
-            element.classList.add("bombs-" + nearBombs);
-        if (nearBombs === -1) element.classList.add("bomb");
+    tiles.forEach((tile, index) => {
+        showTile(index);
     });
 }
+
 function showEmpty() {
     tiles.forEach((tile, index) => {
-        const nearBombs = tile;
-        const element = elements[index];
         if (tile === 0) {
             showTile(index);
             if ((index + 1) % xSize !== 0) {
@@ -113,6 +107,7 @@ function showEmpty() {
         }
     });
 }
+
 function showTile(index) {
     if (index < 0) return;
     if (index >= size) return;
