@@ -9,14 +9,14 @@ const sizeX = document.querySelector(".size-x");
 const sizeY = document.querySelector(".size-y");
 
 const elements = [];
-let selectedIndex =
-    parseInt(localStorage.getItem("borderSize")) != null
-        ? parseInt(localStorage.getItem("borderSize"))
-        : 25;
-let amountOfBombs =
-    parseInt(localStorage.getItem("bombsAmount")) != null
-        ? parseInt(localStorage.getItem("bombsAmount"))
-        : 15;
+
+let selectedIndex = localStorage.getItem("borderSize");
+let amountOfBombs = localStorage.getItem("bombsAmount");
+
+console.log(selectedIndex);
+
+if (selectedIndex === null) selectedIndex = 96;
+if (amountOfBombs === null) amountOfBombs = 15;
 
 for (let i = 0; i < 225; i++) {
     const newEl = document.createElement("div");
@@ -86,8 +86,6 @@ function changeSliderValue(value) {
     rangeInput.style.backgroundSize =
         ((value - min) * 100) / (max - min) + "% 100%";
     bombsLabel.textContent = value;
-    // if (value < 10) bombsLabel.style.left = `${value * 4.5 + 10}px`;
-    // if (value >= 10) bombsLabel.style.left = `${value * 4.6 + 8}px`;
     bombsLabel.style.left = `${value * 4.5 + 10}px`;
     amountOfBombs = value;
     localStorage.setItem("bombsAmount", value);
