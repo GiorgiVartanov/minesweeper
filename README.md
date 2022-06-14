@@ -23,7 +23,6 @@
 ## Table of Contents
 
 -   [Overview](#overview)
--   [Features](#features)
 -   [Contact](#contact)
 
 ## Overview
