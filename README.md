@@ -30,11 +30,9 @@
 
 <!--![screenshot](https://i.ibb.co/xYN94kG/image.png)-->
 
--   you can see demo on https://ph-minesweeper.netlify.app
-
-## Features
-
 this is a simple minesweeper game, where you can select the size of greed and amount of bombs.
+
+-   you can see demo on https://ph-minesweeper.netlify.app
 
 ## Contact
 
