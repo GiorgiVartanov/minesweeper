@@ -13,10 +13,6 @@
     <a href="https://github.com/PhYell/minesweeper">
       Solution
     </a>
-    <span> | </span>
-    <a href="https://devchallenges.io/challenges/hhmesazsqgKXrTkYkt0U">
-      Challenge
-    </a>
   </h3>
 </div>
 
