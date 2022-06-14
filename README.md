@@ -10,7 +10,7 @@
       Demo
     </a>
     <span> | </span>
-    <a href="https://github.com/PhYell/theCreativeCrew">
+    <a href="https://github.com/PhYell/minesweeper">
       Solution
     </a>
     <span> | </span>
@@ -20,15 +20,11 @@
   </h3>
 </div>
 
-<!-- TABLE OF CONTENTS -->
-
 ## Table of Contents
 
 -   [Overview](#overview)
 -   [Features](#features)
 -   [Contact](#contact)
-
-<!-- OVERVIEW -->
 
 ## Overview
 
@@ -37,8 +33,6 @@
 -   you can see demo on https://ph-minesweeper.netlify.app
 
 ## Features
-
-<!-- List the features of your application or follow the template. Don't share the figma file here :) -->
 
 this is a simple minesweeper game, where you can select the size of greed and amount of bombs.
 
