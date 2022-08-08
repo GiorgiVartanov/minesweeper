@@ -1,7 +1,7 @@
 <h1 align="center">MineSweeper</h1>
 
 <div align="center">
-   my project for uni
+   simple minesweeper game
 </div>
 
 <div align="center">
